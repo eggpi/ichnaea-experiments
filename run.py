@@ -84,7 +84,7 @@ if __name__ == "__main__":
     model = NonLinearLeastSquaresModel()
 
     (latitude, longitude), inliers, residual = ransac.ransac(
-        data, model, iterations = 10, min_samples = 3,
+        data, model, iterations = 50, min_samples = 3,
         min_inliers = 0.6, eps = 1e-3)
 
     table.append(("RANSAC (unweighted, %d/%d points)" % (len(inliers), len(data)),
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     model = NonLinearLeastSquaresModel(weighted = True)
 
     (latitude, longitude), inliers, residual = ransac.ransac(
-        data, model, iterations = 10, min_samples = 3,
+        data, model, iterations = 50, min_samples = 3,
         min_inliers = 0.6, eps = 1e-3)
 
     table.append(("RANSAC (weighted, %d/%d points)" % (len(inliers), len(data)),
