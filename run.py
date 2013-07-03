@@ -81,18 +81,22 @@ if __name__ == "__main__":
         model.params[0], model.params[1], model.residual,
         get_error(model.params)))
 
-    (latitude, longitude), inliers, error = ransac.ransac(
-        data, NonLinearLeastSquaresModel(),
-        iterations = 10, min_samples = 3, min_inliers = 0.6, eps = 1e-3)
+    model = NonLinearLeastSquaresModel()
+
+    (latitude, longitude), inliers, residual = ransac.ransac(
+        data, model, iterations = 10, min_samples = 3,
+        min_inliers = 0.6, eps = 1e-3)
 
     table.append(("RANSAC (unweighted, %d/%d points)" % (len(inliers), len(data)),
-        latitude, longitude, model.residual, get_error(model.params)))
+        latitude, longitude, residual, get_error(model.params)))
 
-    (latitude, longitude), inliers, error = ransac.ransac(
-        data, NonLinearLeastSquaresModel(weighted = True),
-        iterations = 10, min_samples = 3, min_inliers = 0.6, eps = 1e-3)
+    model = NonLinearLeastSquaresModel(weighted = True)
+
+    (latitude, longitude), inliers, residual = ransac.ransac(
+        data, model, iterations = 10, min_samples = 3,
+        min_inliers = 0.6, eps = 1e-3)
 
     table.append(("RANSAC (weighted, %d/%d points)" % (len(inliers), len(data)),
-        latitude, longitude, model.residual, get_error(model.params)))
+        latitude, longitude, residual, get_error(model.params)))
 
     padnums.pprint_table(sys.stdout, table)
